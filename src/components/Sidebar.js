@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Sidebar.css';
+import FormOverlay from './FormOverlay';
 import { FaPlus } from 'react-icons/fa';
 
-function Sidebar({ isOpen, toggleSidebar }) {
-  const iconStyle = {
-    fontSize: '24px',
-    color: 'red',
+function Sidebar() {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
+  const openForm = () => {
+    setIsFormOpen(true);
+  };
+
+  const closeForm = () => {
+    setIsFormOpen(false);
   };
 
   return (
-    <div className={`sidebar`}>
-       <FaPlus className="plus-icon" />
+    <div className={`sidebar ${isFormOpen ? 'form-open' : ''}`}>
+      <FaPlus className="plus-icon" onClick={openForm} />
+      {isFormOpen && <FormOverlay onClose={closeForm} isOpen={isFormOpen} />}
     </div>
   );
 }
