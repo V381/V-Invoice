@@ -3,7 +3,7 @@ import { FaTimes } from 'react-icons/fa';
 import FormComponent from './FormComponent'; 
 import './FormOverlay.css';
 
-function FormOverlay({ onClose, isOpen }) {
+function FormOverlay({ onClose, isOpen, onSubmit }) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ function FormOverlay({ onClose, isOpen }) {
     <div className={`form-overlay ${isOpen && isVisible ? 'open' : ''}`}>
       <div className="form-content">
         <FaTimes className="close-icon" onClick={onClose} />
-        <FormComponent />
+        <FormComponent onSubmit={onSubmit}/>
       </div>
     </div>
   );
