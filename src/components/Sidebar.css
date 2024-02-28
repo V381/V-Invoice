@@ -1,0 +1,26 @@
+:root {
+    --sidebar-width: 3rem;
+    --font-size-base: 1rem;
+  }
+  
+  .sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background-color: #333;
+    color: #fff; 
+    display: flex;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    transform: translateX(0);
+  }
+  
+  .sidebar-closed {
+    transform: translateX(-100%);
+  }
+  
+  .plus-icon {
+    font-size: 2rem;
+    color: #ff0000; 
+    margin-top: 2rem;
+  }
+  
