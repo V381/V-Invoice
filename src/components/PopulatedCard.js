@@ -1,7 +1,7 @@
 import React from 'react';
 import './PopulatedCard.css';
 
-function PopulatedCard({ cardData, onClose }) {
+function PopulatedCard({ cardData, onClose, onEditClick }) {
   return (
     <div className="populated-card">
       <div className="property">
@@ -62,6 +62,7 @@ function PopulatedCard({ cardData, onClose }) {
       </div>
 
       <button onClick={onClose}>Close</button>
+      <button onClick={onEditClick}>Edit</button>
     </div>
   );
 }

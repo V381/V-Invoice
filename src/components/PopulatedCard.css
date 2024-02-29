@@ -1,34 +1,36 @@
 .populated-card {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  justify-content: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: black;
   padding: 20px;
-  background-color: inherit;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
 }
 
 .property {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
   margin-bottom: 10px;
 }
 
 .property-label {
   font-weight: bold;
-  margin-right: 10px;
 }
 
 .property-value {
-  flex-grow: 1;
+  margin-left: 10px;
 }
 
-.populated-card button {
-  background-color: gray;
+button {
+  margin-top: 10px;
+  background-color: inherit;
   color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
+}
+
+.close-button {
   cursor: pointer;
 }
