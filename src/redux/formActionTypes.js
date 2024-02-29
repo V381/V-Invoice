@@ -1,3 +1,4 @@
 export const UPDATE_FORM_DATA = 'UPDATE_FORM_DATA';
 export const RESET_FORM_DATA = 'RESET_FORM_DATA';
-export const SUBMIT_FORM = "SUBMIT_FORM";
+export const SUBMIT_FORM = 'SUBMIT_FORM';
+export const CLEAR_FORM_DATA = 'CLEAR_FORM_DATA';

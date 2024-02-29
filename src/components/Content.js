@@ -1,21 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import './Content.css';
+import PopulatedCard from './PopulatedCard';
 
 function Content() {
-  const formData = useSelector((state) => state.formData);
+  const submittedFormDataArray = useSelector((state) => state.formData.formDataArray) ?? [];
+
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  const openPopulatedCard = (cardData) => {
+    setSelectedCard(cardData);
+  };
+
+  const closePopulatedCard = () => {
+    setSelectedCard(null);
+  };
+
   return (
     <div className="content">
-      <main>
-        {formData.isFormSubmitted ? (
-          <>
-            <h1>Client's Name: {formData.formData.clientName}</h1>
-            <p>Email: {formData.formData.clientEmail}</p>
-          </>
+      <main className='form-list'>
+        {submittedFormDataArray.length > 0 ? (
+          submittedFormDataArray.map((formData, index) => (
+            <div className="card-wrapper" key={index}>
+              <button onClick={() => openPopulatedCard({ ...formData })}>
+                Client`s Name: <strong>{formData.clientName}</strong>
+              </button>
+            </div>
+          ))
         ) : (
-          <p>Submit the form to see the data here.</p>
+          <p className='submit-text'>Submit the form to create cards.</p>
         )}
       </main>
+
+      {selectedCard && (
+        <div className={`card-modal ${selectedCard ? 'open' : ''}`}>
+          <PopulatedCard cardData={selectedCard} onClose={closePopulatedCard} />
+        </div>
+      )}
     </div>
   );
 }

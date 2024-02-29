@@ -1,4 +1,4 @@
-import { UPDATE_FORM_DATA, SUBMIT_FORM } from './formActionTypes';
+import { UPDATE_FORM_DATA, SUBMIT_FORM, RESET_FORM_DATA, CLEAR_FORM_DATA } from './formActionTypes';
 
 const initialState = {
   formData: {
@@ -17,12 +17,14 @@ const initialState = {
     itemPrice: '',
     itemTotal: '',
   },
+  formDataArray: [], 
   isFormSubmitted: false,
 };
 
 const formReducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_FORM_DATA:
+      console.log(state.formData);
       return {
         ...state,
         formData: {
@@ -30,11 +32,25 @@ const formReducer = (state = initialState, action) => {
           ...action.payload,
         },
       };
-      case 'SUBMIT_FORM':
+    case RESET_FORM_DATA:
+      return {
+        ...state,
+        formData: initialState.formData,
+      };
+      case CLEAR_FORM_DATA:
         return {
           ...state,
-          isFormSubmitted: true,
+          formData: {
+            client: "?"
+          },
         };
+      case SUBMIT_FORM:
+        return {
+          ...state,
+          formDataArray: [...state.formDataArray, state.formData],
+          isFormSubmitted: true,
+          formData: initialState.formData
+        };   
     default:
       return state;
   }

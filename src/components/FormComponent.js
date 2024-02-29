@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateFormData, submitForm } from '../redux/formActions';
+import { updateFormData, submitForm, clearFormData } from '../redux/formActions';
 import styles from './FormComponent.module.css';
 
 function FormComponent() {
   const dispatch = useDispatch();
   const formData = useSelector((state) => state.formData);
+  const [formKey, setFormKey] = useState(0);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -14,11 +15,15 @@ function FormComponent() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(submitForm()); 
+    dispatch(submitForm());
+    dispatch(updateFormData({ ...formData }));
+    dispatch(clearFormData());
+    setFormKey((prevKey) => prevKey + 1);
+
   };
 
   return (
-    <form className={styles.form}>
+    <form className={styles.form} key={formKey}>
       <div className={`${styles.formField} ${styles.clientName}`}>
         <label className={styles.label} htmlFor="clientName">
           Client's Name:
@@ -187,8 +192,8 @@ function FormComponent() {
           <input
             className={`${styles.inputField} ${styles.city}`}
             type="text"
-            id="city"
-            name="city"
+            id="itemCity"
+            name="itemCity"
             value={formData.itemCity} 
             onChange={handleChange}
           />
@@ -201,8 +206,8 @@ function FormComponent() {
           <input
             className={`${styles.inputField} ${styles.price}`}
             type="text"
-            id="price"
-            name="price"
+            id="itemPrice"
+            name="itemPrice"
             value={formData.itemPrice}
             onChange={handleChange}
           />
@@ -215,9 +220,9 @@ function FormComponent() {
           <input
             className={`${styles.inputField} ${styles.total}`}
             type="text"
-            id="total"
-            name="total"
-            value={formData.total}
+            id="itemTotal"
+            name="itemTotal"
+            value={formData.itemTotal}
             onChange={handleChange}
           />
         </div>
