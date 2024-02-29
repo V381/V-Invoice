@@ -1,10 +1,10 @@
-import { UPDATE_FORM_DATA, RESET_FORM_DATA } from './formActionTypes';
+import { UPDATE_FORM_DATA, SUBMIT_FORM } from './formActionTypes';
 
-export const updateFormData = (formData) => ({
+export const updateFormData = (data) => ({
   type: UPDATE_FORM_DATA,
-  payload: formData,
+  payload: data,
 });
 
-export const resetFormData = () => ({
-  type: RESET_FORM_DATA,
+export const submitForm = () => ({
+  type: 'SUBMIT_FORM',
 });

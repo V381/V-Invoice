@@ -1,20 +1,23 @@
-import { UPDATE_FORM_DATA, RESET_FORM_DATA } from './formActionTypes';
+import { UPDATE_FORM_DATA, SUBMIT_FORM } from './formActionTypes';
 
 const initialState = {
-  clientName: '',
-  clientEmail: '',
-  streetAddress: '',
-  city: '',
-  zipCode: '',
-  country: '',
-  invoiceDate: '',
-  paymentDue: '',
-  paymentTerms: 'net-30',
-  productDescription: '',
-  itemName: '',
-  itemCity: '',
-  itemPrice: '',
-  itemTotal: '',
+  formData: {
+    clientName: '',
+    clientEmail: '',
+    streetAddress: '',
+    city: '',
+    zipCode: '',
+    country: '',
+    invoiceDate: '',
+    paymentDue: '',
+    paymentTerms: 'net-30',
+    productDescription: '',
+    itemName: '',
+    itemCity: '',
+    itemPrice: '',
+    itemTotal: '',
+  },
+  isFormSubmitted: false,
 };
 
 const formReducer = (state = initialState, action) => {
@@ -22,10 +25,16 @@ const formReducer = (state = initialState, action) => {
     case UPDATE_FORM_DATA:
       return {
         ...state,
-        ...action.payload,
+        formData: {
+          ...state.formData,
+          ...action.payload,
+        },
       };
-    case RESET_FORM_DATA:
-      return initialState;
+      case 'SUBMIT_FORM':
+        return {
+          ...state,
+          isFormSubmitted: true,
+        };
     default:
       return state;
   }

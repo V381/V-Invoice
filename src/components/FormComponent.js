@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateFormData } from '../redux/formActions';
+import { updateFormData, submitForm } from '../redux/formActions';
 import styles from './FormComponent.module.css';
 
-function FormComponent({ onSubmit }) {
+function FormComponent() {
   const dispatch = useDispatch();
   const formData = useSelector((state) => state.formData);
 
@@ -13,13 +13,12 @@ function FormComponent({ onSubmit }) {
   };
 
   const handleSubmit = (e) => {
-    console.log(formData);
     e.preventDefault();
-    // You can dispatch any additional actions or handle the form submission logic here
+    dispatch(submitForm()); 
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={styles.form}>
       <div className={`${styles.formField} ${styles.clientName}`}>
         <label className={styles.label} htmlFor="clientName">
           Client's Name:
@@ -224,7 +223,7 @@ function FormComponent({ onSubmit }) {
         </div>
       </div>
 
-      <button className={styles.button} type="submit">
+      <button className={styles.button} onClick={handleSubmit}>
         Submit
       </button>
     </form>
