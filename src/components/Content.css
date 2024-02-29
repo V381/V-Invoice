@@ -1,20 +1,49 @@
 .content {
-    flex: 1;
-    padding: 20px;
-    background-color: #222;
-    color: white;
-  }
-  
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  button {
-    background-color: #333;
-    color: white;
-    padding: 10px;
-    cursor: pointer;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; 
+  background-color: #222;
+  color: white;
+  width: 100%;
+  flex-direction: column;
+}
+
+main {
+  text-align: center;
+}
+
+.submit-text {
+  font-size: 2rem;
+  font-style: italic;
+}
+
+.card-wrapper {
+  margin-bottom: 10px; /* Add some margin between cards */
+}
+
+.card-wrapper button {
+  color: white;
+  background-color: inherit;
+  width: 500px;
+  padding: 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block; 
+}
+
+.card-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: none;
+}
+
+.card-modal.open {
+  display: block;
+}
