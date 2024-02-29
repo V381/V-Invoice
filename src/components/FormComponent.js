@@ -7,6 +7,7 @@ function FormComponent() {
   const dispatch = useDispatch();
   const formData = useSelector((state) => state.formData);
   const [formKey, setFormKey] = useState(0);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,12 +16,12 @@ function FormComponent() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(submitForm());
     dispatch(updateFormData({ ...formData }));
+    dispatch(submitForm());
     dispatch(clearFormData());
     setFormKey((prevKey) => prevKey + 1);
-
   };
+  
 
   return (
     <form className={styles.form} key={formKey}>
@@ -231,6 +232,9 @@ function FormComponent() {
       <button className={styles.button} onClick={handleSubmit}>
         Submit
       </button>
+      <button className={styles.button} onClick={handleSubmit}>
+      Update
+    </button>
     </form>
   );
 }
