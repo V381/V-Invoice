@@ -4,7 +4,7 @@ import './Content.css';
 import PopulatedCard from "./PopulatedCard";
 import FormOverlay from './FormOverlay';
 import FormComponent from './FormComponent';
-import { setCurrentEditingData, clearCurrentEditingData, updateCardArray } from '../redux/formActions'; // Make sure to import updateCard
+import { setCurrentEditingData, clearCurrentEditingData, updateCardArray } from '../redux/formActions'; 
 
 
 function Content() {
