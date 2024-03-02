@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './PopulatedCard.css';
 
-function PopulatedCard({ cardData, onClose, onEditClick }) {
+function PopulatedCard({ cardData, onClose, onEditClick, updateCardData }) {
+  useEffect(() => {
+    updateCardData(cardData);
+  }, [cardData, updateCardData]);
+
   return (
     <div className="populated-card">
       <div className="property">

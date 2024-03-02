@@ -1,27 +1,47 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateFormData, submitForm, clearFormData } from '../redux/formActions';
+import {
+  updateFormData,
+  submitForm,
+  clearFormData,
+  setCurrentEditingData
+} from '../redux/formActions';
 import styles from './FormComponent.module.css';
 
-function FormComponent() {
-  const dispatch = useDispatch();
-  const formData = useSelector((state) => state.formData);
+function FormComponent( {cardData, isEditing} ) {
   const [formKey, setFormKey] = useState(0);
-  
+  const dispatch = useDispatch();
+  const [localFormData, setLocalFormData] = useState(cardData || {});
+
+  useEffect(() => {
+    if (cardData && isEditing) {
+      dispatch(setCurrentEditingData(cardData));
+      dispatch(updateFormData({ ...cardData }));
+      setLocalFormData(cardData);
+    }
+  }, [cardData, dispatch, isEditing]);
+
+  useEffect(() => {
+    if (isEditing) {
+      dispatch(setCurrentEditingData(localFormData)); // Dispatch the updated local state to Redux
+    }
+  }, [isEditing, localFormData, dispatch]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    dispatch(updateFormData({ [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(updateFormData({ ...formData }));
-    dispatch(submitForm());
-    dispatch(clearFormData());
-    setFormKey((prevKey) => prevKey + 1);
+    setLocalFormData((prevData) => ({ ...prevData, [name]: value }));
+    dispatch(updateFormData({ ...localFormData, [name]: value }));
+    dispatch(setCurrentEditingData({ ...localFormData, [name]: value }));
+    console.log(localFormData);
   };
   
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(updateFormData({ ...localFormData }));
+    dispatch(submitForm());
+    dispatch(clearFormData());
+  };
 
   return (
     <form className={styles.form} key={formKey}>
@@ -34,7 +54,7 @@ function FormComponent() {
           type="text"
           id="clientName"
           name="clientName"
-          value={formData.clientName}
+          defaultValue={cardData?.clientName}
           onChange={handleChange}
         />
       </div>
@@ -48,7 +68,7 @@ function FormComponent() {
           type="email"
           id="clientEmail"
           name="clientEmail"
-          value={formData.clientEmail}
+          defaultValue={cardData?.clientEmail}
           onChange={handleChange}
         />
       </div>
@@ -62,7 +82,7 @@ function FormComponent() {
           type="text"
           id="streetAddress"
           name="streetAddress"
-          value={formData.streetAddress}
+          defaultValue={cardData?.streetAddress}
           onChange={handleChange}
         />
       </div>
@@ -76,7 +96,7 @@ function FormComponent() {
           type="text"
           id="city"
           name="city"
-          value={formData.city}
+          defaultValue={cardData?.city}
           onChange={handleChange}
         />
       </div>
@@ -90,7 +110,7 @@ function FormComponent() {
           type="text"
           id="zipCode"
           name="zipCode"
-          value={formData.zipCode}
+          defaultValue={cardData?.zipCode}
           onChange={handleChange}
         />
       </div>
@@ -104,7 +124,7 @@ function FormComponent() {
           type="text"
           id="country"
           name="country"
-          value={formData.country}
+          defaultValue={cardData?.country}
           onChange={handleChange}
         />
       </div>
@@ -118,7 +138,7 @@ function FormComponent() {
           type="date"
           id="invoiceDate"
           name="invoiceDate"
-          value={formData.invoiceDate}
+          defaultValue={cardData?.invoiceDate}
           onChange={handleChange}
         />
       </div>
@@ -132,7 +152,7 @@ function FormComponent() {
           type="date"
           id="paymentDue"
           name="paymentDue"
-          value={formData.paymentDue}
+          defaultValue={cardData?.paymentDue}
           onChange={handleChange}
         />
       </div>
@@ -145,7 +165,7 @@ function FormComponent() {
           className={styles.inputField}
           id="paymentTerms"
           name="paymentTerms"
-          value={formData.paymentTerms}
+          defaultValue={cardData?.paymentTerms}
           onChange={handleChange}
         >
           <option value="net-30">Net 30</option>
@@ -162,7 +182,7 @@ function FormComponent() {
           className={styles.inputField}
           id="productDescription"
           name="productDescription"
-          value={formData.productDescription}
+          defaultValue={cardData?.productDescription}
           onChange={handleChange}
         >
           <option value="product-1">Product 1</option>
@@ -181,7 +201,7 @@ function FormComponent() {
             type="text"
             id="itemName"
             name="itemName"
-            value={formData.itemName}
+            defaultValue={cardData?.itemName}
             onChange={handleChange}
           />
         </div>
@@ -195,7 +215,7 @@ function FormComponent() {
             type="text"
             id="itemCity"
             name="itemCity"
-            value={formData.itemCity} 
+            defaultValue={cardData?.itemCity} 
             onChange={handleChange}
           />
         </div>
@@ -209,7 +229,7 @@ function FormComponent() {
             type="text"
             id="itemPrice"
             name="itemPrice"
-            value={formData.itemPrice}
+            defaultValue={cardData?.itemPrice}
             onChange={handleChange}
           />
         </div>
@@ -223,7 +243,7 @@ function FormComponent() {
             type="text"
             id="itemTotal"
             name="itemTotal"
-            value={formData.itemTotal}
+            defaultValue={cardData?.itemTotal}
             onChange={handleChange}
           />
         </div>
@@ -232,9 +252,6 @@ function FormComponent() {
       <button className={styles.button} onClick={handleSubmit}>
         Submit
       </button>
-      <button className={styles.button} onClick={handleSubmit}>
-      Update
-    </button>
     </form>
   );
 }

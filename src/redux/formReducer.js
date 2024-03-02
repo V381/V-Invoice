@@ -1,4 +1,5 @@
 import { UPDATE_FORM_DATA, SUBMIT_FORM, RESET_FORM_DATA, CLEAR_FORM_DATA } from './formActionTypes';
+import { SET_CURRENT_EDITING_DATA } from './formActionTypes';
 
 const initialState = {
   formData: {
@@ -19,15 +20,17 @@ const initialState = {
   },
   formDataArray: [], 
   isFormSubmitted: false,
+  currentEditingData: null,
+
 };
 
 const formReducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_FORM_DATA:
-      console.log(state.formData);
       return {
         ...state,
         formData: {
+          ...state.formData.currentEditingData,
           ...state.formData,
           ...action.payload,
         },
@@ -41,9 +44,19 @@ const formReducer = (state = initialState, action) => {
         return {
           ...state,
           formData: {
-            client: "?"
+            client: ""
           },
         };
+        case SET_CURRENT_EDITING_DATA:
+      return {
+        ...state,
+        currentEditingData: action.payload,
+      };
+    case 'CLEAR_CURRENT_EDITING_DATA':
+      return {
+        ...state,
+        currentEditingData: null,
+      };
       case SUBMIT_FORM:
         return {
           ...state,
