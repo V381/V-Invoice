@@ -8,10 +8,12 @@ import {
 } from '../redux/formActions';
 import styles from './FormComponent.module.css';
 
-function FormComponent( {cardData, isEditing} ) {
+function FormComponent( {cardData, isEditing, onCloseForm} ) {
   const [formKey, setFormKey] = useState(0);
   const dispatch = useDispatch();
   const [localFormData, setLocalFormData] = useState(cardData || {});
+  const [selectedCard, setSelectedCard] = useState(null);
+
 
   useEffect(() => {
     if (cardData && isEditing) {
@@ -23,17 +25,15 @@ function FormComponent( {cardData, isEditing} ) {
 
   useEffect(() => {
     if (isEditing) {
-      dispatch(setCurrentEditingData(localFormData)); // Dispatch the updated local state to Redux
+      dispatch(setCurrentEditingData(localFormData));
     }
   }, [isEditing, localFormData, dispatch]);
-
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLocalFormData((prevData) => ({ ...prevData, [name]: value }));
     dispatch(updateFormData({ ...localFormData, [name]: value }));
     dispatch(setCurrentEditingData({ ...localFormData, [name]: value }));
-    console.log(localFormData);
   };
   
   const handleSubmit = (e) => {
@@ -43,6 +43,15 @@ function FormComponent( {cardData, isEditing} ) {
     dispatch(clearFormData());
   };
 
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    dispatch(setCurrentEditingData({ ...localFormData }));
+    dispatch(updateFormData({ ...localFormData }));
+    onCloseForm();
+    setSelectedCard({ ...localFormData });
+    
+  };
+  
   return (
     <form className={styles.form} key={formKey}>
       <div className={`${styles.formField} ${styles.clientName}`}>
@@ -249,9 +258,17 @@ function FormComponent( {cardData, isEditing} ) {
         </div>
       </div>
 
-      <button className={styles.button} onClick={handleSubmit}>
-        Submit
-      </button>
+      {!isEditing && (
+        <button className={styles.button} onClick={handleSubmit}>
+          Add Card
+        </button>
+      )}
+
+      {isEditing && (
+        <button className={styles.button} onClick={handleUpdate}>
+          Update
+        </button>
+      )}
     </form>
   );
 }

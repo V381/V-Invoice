@@ -30,8 +30,8 @@ const formReducer = (state = initialState, action) => {
       return {
         ...state,
         formData: {
-          ...state.formData.currentEditingData,
           ...state.formData,
+          ...state.currentEditingData,
           ...action.payload,
         },
       };
@@ -47,7 +47,7 @@ const formReducer = (state = initialState, action) => {
             client: ""
           },
         };
-        case SET_CURRENT_EDITING_DATA:
+      case SET_CURRENT_EDITING_DATA:
       return {
         ...state,
         currentEditingData: action.payload,
@@ -63,7 +63,7 @@ const formReducer = (state = initialState, action) => {
           formDataArray: [...state.formDataArray, state.formData],
           isFormSubmitted: true,
           formData: initialState.formData
-        };   
+        }; 
     default:
       return state;
   }
