@@ -32,3 +32,7 @@ export const clearCurrentEditingData = () => {
   };
 };
 
+export const updateCardArray = (updatedData) => ({
+  type: 'UPDATE_CARD_ARRAY',
+  payload: updatedData,
+});

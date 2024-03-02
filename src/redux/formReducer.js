@@ -1,8 +1,14 @@
-import { UPDATE_FORM_DATA, SUBMIT_FORM, RESET_FORM_DATA, CLEAR_FORM_DATA } from './formActionTypes';
-import { SET_CURRENT_EDITING_DATA } from './formActionTypes';
+import {
+  UPDATE_FORM_DATA,
+  SUBMIT_FORM,
+  RESET_FORM_DATA,
+  CLEAR_FORM_DATA,
+  SET_CURRENT_EDITING_DATA,
+} from './formActionTypes';
 
 const initialState = {
   formData: {
+    id: 0,
     clientName: '',
     clientEmail: '',
     streetAddress: '',
@@ -18,10 +24,9 @@ const initialState = {
     itemPrice: '',
     itemTotal: '',
   },
-  formDataArray: [], 
+  formDataArray: [],
   isFormSubmitted: false,
   currentEditingData: null,
-
 };
 
 const formReducer = (state = initialState, action) => {
@@ -38,16 +43,17 @@ const formReducer = (state = initialState, action) => {
     case RESET_FORM_DATA:
       return {
         ...state,
-        formData: initialState.formData,
+        formData: { ...initialState.formData, id: state.formData.id },
       };
-      case CLEAR_FORM_DATA:
-        return {
-          ...state,
-          formData: {
-            client: ""
-          },
-        };
-      case SET_CURRENT_EDITING_DATA:
+    case CLEAR_FORM_DATA:
+      return {
+        ...state,
+        formData: {
+          client: '',
+          id: state.formData.id,
+        },
+      };
+    case SET_CURRENT_EDITING_DATA:
       return {
         ...state,
         currentEditingData: action.payload,
@@ -57,13 +63,28 @@ const formReducer = (state = initialState, action) => {
         ...state,
         currentEditingData: null,
       };
-      case SUBMIT_FORM:
-        return {
-          ...state,
-          formDataArray: [...state.formDataArray, state.formData],
-          isFormSubmitted: true,
-          formData: initialState.formData
-        }; 
+    case SUBMIT_FORM:
+      return {
+        ...state,
+        formDataArray: [...state.formDataArray, { ...state.formData, id: state.formData.id + 1 }],
+        isFormSubmitted: true,
+        formData: { ...initialState.formData, id: state.formData.id + 1 },
+      };
+      case 'UPDATE_CARD_ARRAY':
+        const updatedArray = state.formDataArray.map((item) => {
+          if (item.id === state.currentEditingData.id) {
+            return { ...item, ...action.payload }; 
+          }
+          return item;
+        });
+  return {
+    ...state,
+    formDataArray: updatedArray,
+  };
+  return {
+    ...state,
+    formDataArray: updatedArray,
+  };
     default:
       return state;
   }

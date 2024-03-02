@@ -4,7 +4,8 @@ import {
   updateFormData,
   submitForm,
   clearFormData,
-  setCurrentEditingData
+  setCurrentEditingData,
+  updateCardArray
 } from '../redux/formActions';
 import styles from './FormComponent.module.css';
 
@@ -42,15 +43,16 @@ function FormComponent( {cardData, isEditing, onCloseForm} ) {
     dispatch(submitForm());
     dispatch(clearFormData());
   };
-
   const handleUpdate = (e) => {
     e.preventDefault();
     dispatch(setCurrentEditingData({ ...localFormData }));
     dispatch(updateFormData({ ...localFormData }));
+    dispatch(updateCardArray({ ...localFormData }));
     onCloseForm();
     setSelectedCard({ ...localFormData });
-    
   };
+  
+  
   
   return (
     <form className={styles.form} key={formKey}>

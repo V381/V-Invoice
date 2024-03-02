@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 function PopulatedCard({ cardData, onClose, onEditClick }) {
   const currentEditingData = useSelector((state) => state.formData.currentEditingData);
-  const [localData, setLocalData] = useState(currentEditingData || cardData);
+  const [localData, setLocalData] = useState(currentEditingData);
 
   useEffect(() => {
     if (currentEditingData) {
@@ -14,7 +14,7 @@ function PopulatedCard({ cardData, onClose, onEditClick }) {
     }
   }, [currentEditingData, cardData]);
 
-
+  
   return (
     <div className="populated-card">
       <div className="property">
