@@ -1,31 +1,47 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import './Content.css';
 import PopulatedCard from "./PopulatedCard";
 import FormOverlay from './FormOverlay';
 import FormComponent from './FormComponent';
+import { setCurrentEditingData, clearCurrentEditingData } from '../redux/formActions';
 
 function Content() {
   const submittedFormDataArray = useSelector((state) => state.formData.formDataArray) ?? [];
-  const [selectedCard, setSelectedCard] = useState(null);
+  const currentEditingData = useSelector((state) => state.formData.currentEditingData);
+  const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
 
+  useEffect(() => {
+    if (isEditing && selectedCard) {
+      dispatch(setCurrentEditingData(selectedCard));
+    }
+  }, [isEditing, selectedCard, dispatch]);
+
+  const handleUpdateCardData = (updatedData) => {
+    dispatch(setCurrentEditingData(updatedData)); // Dispatch action to update Redux store
+  };
+  
   const openPopulatedCard = (cardData) => {
-    setSelectedCard(cardData);
+    dispatch(clearCurrentEditingData());
     setIsEditing(false);
     setIsFormOpen(false);
+    setSelectedCard(cardData);
   };
 
   const openEditForm = () => {
     setIsEditing(true);
     setIsFormOpen(true);
+    dispatch(setCurrentEditingData(selectedCard))
   };
 
   const closePopulatedCard = () => {
     setSelectedCard(null);
     setIsEditing(false);
     setIsFormOpen(false);
+    dispatch(clearCurrentEditingData());
   };
 
   return (
@@ -50,12 +66,13 @@ function Content() {
           onClose={closePopulatedCard}
           onEditClick={openEditForm}
           isEditing={isEditing}
+          updateCardData={handleUpdateCardData}
         />
       )}
 
       {isEditing && (
-        <FormOverlay isOpen={isFormOpen} onClose={closePopulatedCard}>
-          <FormComponent cardData={selectedCard} onSubmit={closePopulatedCard} />
+        <FormOverlay isOpen={isFormOpen} onClose={closePopulatedCard} isEditing={isEditing} cardData={currentEditingData}>
+            <FormComponent onSubmit={closePopulatedCard} cardData={currentEditingData} />
         </FormOverlay>
       )}
     </div>
