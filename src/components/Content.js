@@ -4,7 +4,8 @@ import './Content.css';
 import PopulatedCard from "./PopulatedCard";
 import FormOverlay from './FormOverlay';
 import FormComponent from './FormComponent';
-import { setCurrentEditingData, clearCurrentEditingData } from '../redux/formActions';
+import { setCurrentEditingData, clearCurrentEditingData, updateCardArray } from '../redux/formActions'; // Make sure to import updateCard
+
 
 function Content() {
   const submittedFormDataArray = useSelector((state) => state.formData.formDataArray) ?? [];
@@ -20,10 +21,10 @@ function Content() {
     }
   }, [isEditing, selectedCard, dispatch]);
 
-  const handleUpdateCardData = (updatedData) => {
-    dispatch(setCurrentEditingData(updatedData)); // Dispatch action to update Redux store
+  const closeForm = () => {
+    setIsFormOpen(false);
   };
-  
+
   const openPopulatedCard = (cardData) => {
     dispatch(clearCurrentEditingData());
     setIsEditing(false);
@@ -34,7 +35,7 @@ function Content() {
   const openEditForm = () => {
     setIsEditing(true);
     setIsFormOpen(true);
-    dispatch(setCurrentEditingData(selectedCard))
+    dispatch(setCurrentEditingData(selectedCard));
   };
 
   const closePopulatedCard = () => {
@@ -66,13 +67,11 @@ function Content() {
           onClose={closePopulatedCard}
           onEditClick={openEditForm}
           isEditing={isEditing}
-          updateCardData={handleUpdateCardData}
         />
       )}
-
       {isEditing && (
-        <FormOverlay isOpen={isFormOpen} onClose={closePopulatedCard} isEditing={isEditing} cardData={currentEditingData}>
-            <FormComponent onSubmit={closePopulatedCard} cardData={currentEditingData} />
+        <FormOverlay isOpen={isFormOpen} onCloseForm={closeForm} isEditing={isEditing} cardData={currentEditingData}>
+          <FormComponent onSubmit={closePopulatedCard} onCloseForm={closeForm} cardData={currentEditingData} />
         </FormOverlay>
       )}
     </div>

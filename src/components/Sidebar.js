@@ -18,6 +18,7 @@ function Sidebar() {
     <div className={`sidebar ${isFormOpen ? 'form-open' : ''}`}>
       <FaPlus className="plus-icon" onClick={openForm} />
       {isFormOpen && <FormOverlay onClose={closeForm} isOpen={isFormOpen} />}
+      <p>V</p>
     </div>
   );
 }
