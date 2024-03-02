@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import isEqual from 'lodash/isEqual';
+
 import {
   updateFormData,
   submitForm,
@@ -14,7 +16,69 @@ function FormComponent( {cardData, isEditing, onCloseForm} ) {
   const dispatch = useDispatch();
   const [localFormData, setLocalFormData] = useState(cardData || {});
   const [selectedCard, setSelectedCard] = useState(null);
+  const [formError, setFormError] = useState(null);
 
+  useEffect(() => {
+    if (cardData && isEditing) {
+      dispatch(setCurrentEditingData(cardData));
+      dispatch(updateFormData({ ...cardData }));
+      setLocalFormData(cardData);
+    }
+  }, [cardData, dispatch, isEditing]);
+
+  useEffect(() => {
+    if (isEditing) {
+      dispatch(setCurrentEditingData(localFormData));
+    }
+  }, [isEditing, localFormData, dispatch]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      dispatch(updateFormData({ ...localFormData }));
+      dispatch(submitForm());
+      dispatch(clearFormData());
+    }
+  };
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      dispatch(setCurrentEditingData({ ...localFormData }));
+      dispatch(updateFormData({ ...localFormData }));
+      dispatch(updateCardArray({ ...localFormData }));
+      onCloseForm();
+    }
+  };
+
+  const validateForm = () => {
+    const fieldsToValidate = [
+      'clientName',
+      'clientEmail',
+      'streetAddress',
+      'city',
+      'zipCode',
+      'country',
+      'invoiceDate',
+      'paymentDue',
+      'paymentTerms',
+      'productDescription',
+      'itemName',
+      'itemCity',
+      'itemPrice',
+      'itemTotal',
+    ];
+
+    for (const fieldName of fieldsToValidate) {
+      if (!localFormData[fieldName]) {
+        setFormError(`Please fill in the ${fieldName.replace(/([A-Z])/g, ' $1').toLowerCase()}`);
+        return false;
+      }
+    }
+
+    setFormError(null);
+    return true;
+  };
 
   useEffect(() => {
     if (cardData && isEditing) {
@@ -32,30 +96,21 @@ function FormComponent( {cardData, isEditing, onCloseForm} ) {
   
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setLocalFormData((prevData) => ({ ...prevData, [name]: value }));
-    dispatch(updateFormData({ ...localFormData, [name]: value }));
-    dispatch(setCurrentEditingData({ ...localFormData, [name]: value }));
+    const updatedFormData = { ...localFormData, [name]: value };
+
+    if (!isEqual(updatedFormData, localFormData)) {
+      setLocalFormData(updatedFormData);
+      dispatch(updateFormData(updatedFormData));
+      dispatch(setCurrentEditingData(updatedFormData));
+    }
   };
-  
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(updateFormData({ ...localFormData }));
-    dispatch(submitForm());
-    dispatch(clearFormData());
-  };
-  const handleUpdate = (e) => {
-    e.preventDefault();
-    dispatch(setCurrentEditingData({ ...localFormData }));
-    dispatch(updateFormData({ ...localFormData }));
-    dispatch(updateCardArray({ ...localFormData }));
-    onCloseForm();
-    setSelectedCard({ ...localFormData });
-  };
-  
+
   
   
   return (
     <form className={styles.form} key={formKey}>
+            {formError && <p className={styles.error}>{formError}</p>}
+
       <div className={`${styles.formField} ${styles.clientName}`}>
         <label className={styles.label} htmlFor="clientName">
           Client's Name:

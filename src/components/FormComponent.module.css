@@ -48,3 +48,14 @@
   margin-right: 2.5px;
   margin-bottom: 0;
 }
+
+
+.form .error {
+  font-size: 1rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: white;
+  font-style: italic;
+  z-index: -9999999;
+}

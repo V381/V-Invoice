@@ -48,3 +48,8 @@ main {
 .card-modal.open {
   display: block;
 }
+
+.error {
+  color: red;
+  font-size: 1rem;
+}
