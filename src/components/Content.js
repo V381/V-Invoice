@@ -44,7 +44,6 @@ function Content() {
     setIsFormOpen(false);
     dispatch(clearCurrentEditingData());
   };
-
   return (
     <div className="content">
       <main className="form-list">
