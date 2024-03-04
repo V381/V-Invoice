@@ -4,6 +4,7 @@ import {
   RESET_FORM_DATA,
   CLEAR_FORM_DATA,
   SET_CURRENT_EDITING_DATA,
+  REMOVE_CARD
 } from './formActionTypes';
 
 const initialState = {
@@ -63,6 +64,12 @@ const formReducer = (state = initialState, action) => {
         ...state,
         currentEditingData: null,
       };
+    case REMOVE_CARD:
+      const { cardId } = action.payload;
+      return {
+        ...state,
+        formDataArray: state.formDataArray.filter((card) => card.id !== cardId),
+      };
     case SUBMIT_FORM:
       return {
         ...state,
@@ -77,10 +84,6 @@ const formReducer = (state = initialState, action) => {
           }
           return item;
         });
-  return {
-    ...state,
-    formDataArray: updatedArray,
-  };
   return {
     ...state,
     formDataArray: updatedArray,

@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './Content.css';
-import PopulatedCard from "./PopulatedCard";
+import PopulatedCard from "./PopulatedCard"
+import { FaTimes } from 'react-icons/fa';
 import FormOverlay from './FormOverlay';
 import FormComponent from './FormComponent';
-import { setCurrentEditingData, clearCurrentEditingData, updateCardArray } from '../redux/formActions'; 
+import { 
+   setCurrentEditingData,
+   clearCurrentEditingData, 
+   removeCardAction } from '../redux/formActions'; 
 
 
 function Content() {
@@ -24,6 +28,10 @@ function Content() {
   const closeForm = () => {
     setIsFormOpen(false);
   };
+
+  const removeCard = (cardData) => {
+    dispatch(removeCardAction(cardData.id));
+  }
 
   const openPopulatedCard = (cardData) => {
     dispatch(clearCurrentEditingData());
@@ -51,12 +59,13 @@ function Content() {
           submittedFormDataArray.map((formData, index) => (
             <div className="card-wrapper" key={index}>
               <button onClick={() => openPopulatedCard({ ...formData })}>
-                Client's Name: <strong>{formData.clientName}</strong>
+                <strong>Client's Name:  {formData.clientName}</strong>
+                <FaTimes className="remove-card-icon" title="Delete card" onClick={(e) => { e.stopPropagation(); removeCard(formData); }} />
               </button>
             </div>
           ))
-        ) : (
-          <p className="submit-text">Submit the form to create cards.</p>
+          ) : (
+            <p className="submit-text">Submit the form to create cards.</p>
         )}
       </main>
 
