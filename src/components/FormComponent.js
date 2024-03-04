@@ -251,9 +251,10 @@ function FormComponent( {cardData, isEditing, onCloseForm} ) {
           defaultValue={cardData?.productDescription}
           onChange={handleChange}
         >
-          <option value="product-1">Product 1</option>
-          <option value="product-2">Product 2</option>
-          <option value="product-3">Product 3</option>
+          <option value="product-1">Front End</option>
+          <option value="product-2">Back End</option>
+          <option value="product-3">UI/UX</option>
+          <option value="product-4">Project Management</option>
         </select>
       </div>
 

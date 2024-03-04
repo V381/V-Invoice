@@ -5,6 +5,8 @@ import PopulatedCard from "./PopulatedCard"
 import { FaTimes } from 'react-icons/fa';
 import FormOverlay from './FormOverlay';
 import FormComponent from './FormComponent';
+import { FaQuestion } from 'react-icons/fa';
+import HelpModal from './HelpModal';
 import { 
    setCurrentEditingData,
    clearCurrentEditingData, 
@@ -18,6 +20,7 @@ function Content() {
   const [isEditing, setIsEditing] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
 
   useEffect(() => {
     if (isEditing && selectedCard) {
@@ -52,9 +55,13 @@ function Content() {
     setIsFormOpen(false);
     dispatch(clearCurrentEditingData());
   };
+  const toggleHelpModal = () => {
+    setIsHelpModalOpen(!isHelpModalOpen);
+  };
   return (
     <div className="content">
       <main className="form-list">
+        <FaQuestion className="close-icon icon-style" onClick={toggleHelpModal} />
         {submittedFormDataArray.length > 0 ? (
           submittedFormDataArray.map((formData, index) => (
             <div className="card-wrapper" key={index}>
@@ -82,6 +89,7 @@ function Content() {
           <FormComponent onSubmit={closePopulatedCard} onCloseForm={closeForm} cardData={currentEditingData} />
         </FormOverlay>
       )}
+      {isHelpModalOpen && <HelpModal isOpen={isHelpModalOpen} onClose={toggleHelpModal} />}
     </div>
   );
 }
