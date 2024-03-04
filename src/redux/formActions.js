@@ -1,4 +1,10 @@
-import { CLEAR_FORM_DATA, UPDATE_FORM_DATA, SUBMIT_FORM, RESET_FORM_DATA, SET_CURRENT_EDITING_DATA } from './formActionTypes';
+import { 
+  CLEAR_FORM_DATA, 
+  UPDATE_FORM_DATA, 
+  SUBMIT_FORM, 
+  RESET_FORM_DATA, 
+  SET_CURRENT_EDITING_DATA, 
+  REMOVE_CARD } from './formActionTypes';
 
 export const updateFormData = (data) => {
   return {
@@ -35,4 +41,9 @@ export const clearCurrentEditingData = () => {
 export const updateCardArray = (updatedData) => ({
   type: 'UPDATE_CARD_ARRAY',
   payload: updatedData,
+});
+
+export const removeCardAction = (cardId) => ({
+  type: REMOVE_CARD,
+  payload: { cardId },
 });

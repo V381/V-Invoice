@@ -11,7 +11,7 @@
 }
 
 main {
-  text-align: center;
+  text-align: left;
 }
 
 .submit-text {
@@ -31,6 +31,9 @@ main {
   box-sizing: border-box;
   cursor: pointer;
   display: block; 
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
 }
 
 .card-modal {
@@ -52,4 +55,16 @@ main {
 .error {
   color: red;
   font-size: 1rem;
+}
+
+.remove-card-icon {
+  text-align: right;
+  font-size: 1rem;
+  transition: 0.5s ease-in-out;
+}
+
+.remove-card-icon:hover {
+  cursor: pointer;
+  color: gray;
+
 }
