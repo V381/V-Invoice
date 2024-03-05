@@ -7,11 +7,11 @@ function HelpModal( {isOpen, onClose}) {
         <p>This is a help section.</p>
 
         <ol>
-            <li>Press the plus sign at top left</li>
-            <li>Populate form with valid data</li>
-            <li>Click card on card to open data</li>
-            <li>Click X to remove card</li>
-            <li>When card is opened you can edit the card</li>
+            <li>Click the plus sign at the top left.</li>
+            <li>Populate the form with valid data.</li>
+            <li>Click on a card to open its data.</li>
+            <li>Click the X to remove the card.</li>
+            <li>When a card is opened, you can edit its content.</li>
         </ol>
         <p>Application created by Pavle Paunovic</p>
         <button onClick={onClose}>Close</button>
