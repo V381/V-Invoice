@@ -9,15 +9,10 @@
   flex-direction: column;
 }
 
-.label {
-  font-weight: bold;
-  margin-bottom: 4px;
-  color: white;
-  padding-bottom: 10px;
-}
-
+.selectField,
 .inputField {
   width: 100%;
+  box-sizing: border-box;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -26,8 +21,15 @@
   margin-bottom: 8px;
 }
 
+.label {
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: white;
+  padding-bottom: 10px;
+}
+
 .button {
-  width: 100%;
+  width: auto;
   padding: 12px;
   background-color: inherit;
   border: 1px solid white;
@@ -46,10 +48,8 @@
 .price,
 .total {
   flex: 1;
-  margin-right: 2.5px;
-  margin-bottom: 0;
+  width: 100%;
 }
-
 
 .form .error {
   font-size: 1rem;
@@ -60,4 +60,3 @@
   font-style: italic;
   z-index: -9999999;
 }
-

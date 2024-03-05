@@ -109,7 +109,7 @@ function FormComponent( {cardData, isEditing, onCloseForm} ) {
   
   return (
     <form className={styles.form} key={formKey}>
-            {formError && <p className={styles.error}>{formError}</p>}
+      {formError && <p className={styles.error}>{formError}</p>}
 
       <div className={`${styles.formField} ${styles.clientName}`}>
         <label className={styles.label} htmlFor="clientName">
@@ -224,39 +224,40 @@ function FormComponent( {cardData, isEditing, onCloseForm} ) {
       </div>
 
       <div className={`${styles.formField} ${styles.paymentTerms}`}>
-        <label className={styles.label} htmlFor="paymentTerms">
-          Payment Terms:
-        </label>
-        <select
-          className={styles.inputField}
-          id="paymentTerms"
-          name="paymentTerms"
-          defaultValue={cardData?.paymentTerms}
-          onChange={handleChange}
-        >
-          <option value="net-30">Net 30</option>
-          <option value="net-60">Net 60</option>
-          <option value="net-90">Net 90</option>
-        </select>
-      </div>
+  <label className={styles.label} htmlFor="paymentTerms">
+    Payment Terms:
+  </label>
+  <select
+    className={`${styles.inputField} ${styles.selectField}`} 
+    id="paymentTerms"
+    name="paymentTerms"
+    defaultValue={cardData?.paymentTerms}
+    onChange={handleChange}
+  >
+    <option value="net-30">Net 30</option>
+    <option value="net-60">Net 60</option>
+    <option value="net-90">Net 90</option>
+  </select>
+</div>
 
-      <div className={`${styles.formField} ${styles.productDescription}`}>
-        <label className={styles.label} htmlFor="productDescription">
-          Product Descriptions:
-        </label>
-        <select
-          className={styles.inputField}
-          id="productDescription"
-          name="productDescription"
-          defaultValue={cardData?.productDescription}
-          onChange={handleChange}
-        >
-          <option value="product-1">Front End</option>
-          <option value="product-2">Back End</option>
-          <option value="product-3">UI/UX</option>
-          <option value="product-4">Project Management</option>
-        </select>
-      </div>
+<div className={`${styles.formField} ${styles.productDescription}`}>
+  <label className={styles.label} htmlFor="productDescription">
+    Product Descriptions:
+  </label>
+  <select
+    className={`${styles.inputField} ${styles.selectField}`} 
+    id="productDescription"
+    name="productDescription"
+    defaultValue={cardData?.productDescription}
+    onChange={handleChange}
+  >
+    <option value="product-1">Front End</option>
+    <option value="product-2">Back End</option>
+    <option value="product-3">UI/UX</option>
+    <option value="product-4">Project Management</option>
+  </select>
+</div>
+
 
       <div className={styles.row}>
         <div className={`${styles.formField} ${styles.itemName}`}>
