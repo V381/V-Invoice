@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import InputField from './InputField';
+import Button from './Button';
 
 import {
   updateFormData,
@@ -13,10 +14,9 @@ import {
 import styles from './FormComponent.module.css';
 
 function FormComponent( {cardData, isEditing, onCloseForm} ) {
-  const [formKey, setFormKey] = useState(0);
+  const [formKey] = useState(0);
   const dispatch = useDispatch();
   const [localFormData, setLocalFormData] = useState(cardData || {});
-  const [selectedCard, setSelectedCard] = useState(null);
   const [formError, setFormError] = useState(null);
 
   useEffect(() => {
@@ -283,15 +283,11 @@ function FormComponent( {cardData, isEditing, onCloseForm} ) {
       </div>
 
       {!isEditing && (
-        <button className={styles.button} onClick={handleSubmit}>
-          Add Card
-        </button>
+        <Button onClick={handleSubmit}>Add Card</Button>
       )}
 
       {isEditing && (
-        <button className={styles.button} onClick={handleUpdate}>
-          Update
-        </button>
+        <Button onClick={handleUpdate}>Handle Update</Button>
       )}
     </form>
   );
