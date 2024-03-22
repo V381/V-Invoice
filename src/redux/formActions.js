@@ -3,7 +3,9 @@ import {
   UPDATE_FORM_DATA, 
   SUBMIT_FORM, 
   RESET_FORM_DATA, 
-  SET_CURRENT_EDITING_DATA, 
+  SET_CURRENT_EDITING_DATA,
+  CLEAR_CURRENT_EDITING_DATA, 
+  UPDATE_CARD_ARRAY,
   REMOVE_CARD } from './formActionTypes';
 
 export const updateFormData = (data) => {
@@ -34,12 +36,12 @@ export const setCurrentEditingData = (data) => {
 
 export const clearCurrentEditingData = () => {
   return {
-    type: 'CLEAR_CURRENT_EDITING_DATA',
+    type: CLEAR_CURRENT_EDITING_DATA,
   };
 };
 
 export const updateCardArray = (updatedData) => ({
-  type: 'UPDATE_CARD_ARRAY',
+  type: UPDATE_CARD_ARRAY,
   payload: updatedData,
 });
 
