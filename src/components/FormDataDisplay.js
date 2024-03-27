@@ -1,10 +1,10 @@
 import React from 'react';
-import './FormDataDisplay.css';
+import styles from './FormDataDisplay.module.css';
 
 function FormDataDisplay({ formData, onClose }) {
   return (
-    <div className="form-data-display">
-      <div className="form-data-content">
+    <div className={styles.FormDataDisplay}>
+      <div className={styles.formDataContent}>
         <h2>Submitted Form Data</h2>
         <pre>{JSON.stringify(formData, null, 2)}</pre>
         <button onClick={onClose}>Close</button>

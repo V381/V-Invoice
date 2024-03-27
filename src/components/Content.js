@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import './Content.css';
+import styles from './Content.module.css';
 import PopulatedCard from "./PopulatedCard";
 import { FaTimes, FaQuestion } from 'react-icons/fa';
 import FormOverlay from './FormOverlay';
 import FormComponent from './FormComponent';
-import HelpModal from './HelpModal';
 import { setCurrentEditingData, clearCurrentEditingData, removeCardAction } from '../redux/formActions';
 
 function Content() {
@@ -50,20 +49,17 @@ function Content() {
     setPartialState({ selectedCard: null, isEditing: false, isFormOpen: false });
   }, [dispatch]);
 
-  const toggleHelpModal = useCallback(() => setPartialState(prevState => ({ isHelpModalOpen: !prevState.isHelpModalOpen })), []);
-
   return (
-    <div className="content">
-      <main className="form-list">
-        <FaQuestion className="close-icon icon-style" onClick={toggleHelpModal} />
+    <div className={styles.content}>
+      <main className={styles.formList}>
         {formDataArray.length > 0 ? formDataArray.map((formData, index) => (
-          <div className="card-wrapper" key={index}>
+          <div className={styles.cardWrapper} key={index}>
             <button onClick={() => openPopulatedCard(formData)}>
               <strong>Client's Name: {formData.clientName}</strong>
-              <FaTimes className="remove-card-icon" title="Delete card" onClick={(e) => { e.stopPropagation(); removeCard(formData); }} />
+              <FaTimes className={styles.removeCardIcon} title="Delete card" onClick={(e) => { e.stopPropagation(); removeCard(formData); }} />
             </button>
           </div>
-        )) : <p className="submit-text">Submit the form to create cards.</p>}
+        )) : <p className={styles.submitText}>Submit the form to create cards.</p>}
       </main>
 
       {(state.isEditing || state.selectedCard) && (
@@ -79,7 +75,6 @@ function Content() {
           <FormComponent onSubmit={closePopulatedCard} onCloseForm={closeForm} cardData={state.selectedCard} />
         </FormOverlay>
       )}
-      {state.isHelpModalOpen && <HelpModal isOpen={state.isHelpModalOpen} onClose={toggleHelpModal} />}
     </div>
   );
 }

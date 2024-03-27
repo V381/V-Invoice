@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './FormComponent.module.css';
+import styles from './../FormComponent.module.css';
 
 function InputField({ label, id, name, defaultValue, onChange, type }) {
   return (

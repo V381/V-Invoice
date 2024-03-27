@@ -96,10 +96,6 @@ const formReducer = (state = initialState, action) => {
     ...state,
     formDataArray: updatedArray,
   };
-  return {
-    ...state,
-    formDataArray: updatedArray,
-  };
     default:
       return state;
   }

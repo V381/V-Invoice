@@ -1,5 +1,5 @@
 import React from 'react';
-import './PopulatedCard.css';
+import styles from './PopulatedCard.module.css';
 import { useSelector } from 'react-redux';
 
 function PopulatedCard({ cardData, onClose, onEditClick }) {
@@ -24,11 +24,11 @@ function PopulatedCard({ cardData, onClose, onEditClick }) {
   ];
 
   return (
-    <div className="populated-card">
+    <div className={styles.populatedCard}>
       {properties.map((prop, index) => (
-        <div key={index} className="property">
-          <span className="property-label">{prop.label}:</span>
-          <span className="property-value">{prop.value}</span>
+        <div key={index} className={styles.property}>
+          <span className={styles.propertyLabel}>{prop.label}:</span>
+          <span className={styles.propertyValue}>{prop.value}</span>
         </div>
       ))}
       <button onClick={onClose}>Close</button>

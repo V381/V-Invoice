@@ -13,29 +13,29 @@
     transform: translateX(0);
   }
   
-  .form-open .sidebar {
+  .formOpen .sidebar {
     transform: translateX(-30%); 
   }
   
   
-  .sidebar-closed {
+  .sidebarClosed {
     transform: translateX(-100%);
   }
   
-  .plus-icon {
+  .plusIcon {
     font-size: 2rem;
     color: white;
     margin-top: 2rem;
     transition: 0.5s ease;
   }
 
-  .plus-icon:hover {
+  .plusIcon:hover {
     cursor: pointer;
     color: gray;
     transition: 0.5s ease;
   }
   
-  .sidebar p {
+  .letterV {
     position: absolute;
     bottom: 20px; 
     color: red;

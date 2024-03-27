@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
 import FormComponent from './FormComponent';
-import './FormOverlay.css';
+import styles from './FormOverlay.module.css';
 
 function FormOverlay({ onClose, isOpen, onSubmit, cardData, isEditing, onCloseForm }) {
   
@@ -11,9 +11,9 @@ function FormOverlay({ onClose, isOpen, onSubmit, cardData, isEditing, onCloseFo
   };
 
   return (
-    <div className={`form-overlay ${isOpen ? 'open' : ''}`}>
-      <div className="form-content">
-        <FaTimes className="close-icon" onClick={closeFormBothEditAndSubmit} />
+    <div className={`${styles.formOverlay} ${isOpen ? styles.open : ''}`}>
+      <div className={styles.formContent}>
+        <FaTimes className={styles.closeIcon} onClick={closeFormBothEditAndSubmit} />
         <FormComponent 
           isEditing={isEditing} 
           onSubmit={onSubmit} 
