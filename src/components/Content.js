@@ -1,95 +1,85 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './Content.css';
-import PopulatedCard from "./PopulatedCard"
-import { FaTimes } from 'react-icons/fa';
+import PopulatedCard from "./PopulatedCard";
+import { FaTimes, FaQuestion } from 'react-icons/fa';
 import FormOverlay from './FormOverlay';
 import FormComponent from './FormComponent';
-import { FaQuestion } from 'react-icons/fa';
 import HelpModal from './HelpModal';
-import { 
-   setCurrentEditingData,
-   clearCurrentEditingData, 
-   removeCardAction } from '../redux/formActions'; 
-
+import { setCurrentEditingData, clearCurrentEditingData, removeCardAction } from '../redux/formActions';
 
 function Content() {
-  const submittedFormDataArray = useSelector((state) => state.formData.formDataArray) ?? [];
-  const currentEditingData = useSelector((state) => state.formData.currentEditingData);
+  const { formDataArray = [], currentEditingData } = useSelector(state => state.formData);
   const dispatch = useDispatch();
-  const [isEditing, setIsEditing] = useState(false);
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(null);
-  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+
+  const [state, setState] = useState({
+    isEditing: false,
+    isFormOpen: false,
+    selectedCard: null,
+    isHelpModalOpen: false,
+  });
 
   useEffect(() => {
-    if (isEditing && selectedCard) {
-      dispatch(setCurrentEditingData(selectedCard));
+    if (state.isEditing && state.selectedCard) {
+      dispatch(setCurrentEditingData(state.selectedCard));
     }
-  }, [isEditing, selectedCard, dispatch]);
+  }, [state.isEditing, state.selectedCard, dispatch]);
 
-  const closeForm = () => {
-    setIsFormOpen(false);
-  };
+  const setPartialState = useCallback((updates) =>{
+    setState(prevState => ({ ...prevState, ...updates })) 
+  });
 
-  const removeCard = (cardData) => {
+  const closeForm = useCallback(() => setPartialState({ isFormOpen: false }), []);
+
+  const removeCard = useCallback((cardData) => {
     dispatch(removeCardAction(cardData.id));
-  }
+  }, [dispatch]);
 
-  const openPopulatedCard = (cardData) => {
+  const openPopulatedCard = useCallback((cardData) => {
     dispatch(clearCurrentEditingData());
-    setIsEditing(false);
-    setIsFormOpen(false);
-    setSelectedCard(cardData);
-  };
+    setPartialState({ isEditing: false, isFormOpen: false, selectedCard: cardData });
+  }, [dispatch]);
 
-  const openEditForm = () => {
-    setIsEditing(true);
-    setIsFormOpen(true);
-    dispatch(setCurrentEditingData(selectedCard));
-  };
+  const openEditForm = useCallback(() =>  {
+    dispatch(setCurrentEditingData(state.selectedCard))
+    setPartialState({ isEditing: true, isFormOpen: true })});
 
-  const closePopulatedCard = () => {
-    setSelectedCard(null);
-    setIsEditing(false);
-    setIsFormOpen(false);
+  const closePopulatedCard = useCallback(() => {
     dispatch(clearCurrentEditingData());
-  };
-  const toggleHelpModal = () => {
-    setIsHelpModalOpen(!isHelpModalOpen);
-  };
+    dispatch(setCurrentEditingData(state.selectedCard))
+    setPartialState({ selectedCard: null, isEditing: false, isFormOpen: false });
+  }, [dispatch]);
+
+  const toggleHelpModal = useCallback(() => setPartialState(prevState => ({ isHelpModalOpen: !prevState.isHelpModalOpen })), []);
+
   return (
     <div className="content">
       <main className="form-list">
         <FaQuestion className="close-icon icon-style" onClick={toggleHelpModal} />
-        {submittedFormDataArray.length > 0 ? (
-          submittedFormDataArray.map((formData, index) => (
-            <div className="card-wrapper" key={index}>
-              <button onClick={() => openPopulatedCard({ ...formData })}>
-                <strong>Client's Name:  {formData.clientName}</strong>
-                <FaTimes className="remove-card-icon" title="Delete card" onClick={(e) => { e.stopPropagation(); removeCard(formData); }} />
-              </button>
-            </div>
-          ))
-          ) : (
-            <p className="submit-text">Submit the form to create cards.</p>
-        )}
+        {formDataArray.length > 0 ? formDataArray.map((formData, index) => (
+          <div className="card-wrapper" key={index}>
+            <button onClick={() => openPopulatedCard(formData)}>
+              <strong>Client's Name: {formData.clientName}</strong>
+              <FaTimes className="remove-card-icon" title="Delete card" onClick={(e) => { e.stopPropagation(); removeCard(formData); }} />
+            </button>
+          </div>
+        )) : <p className="submit-text">Submit the form to create cards.</p>}
       </main>
 
-      {(isEditing || selectedCard) && (
+      {(state.isEditing || state.selectedCard) && (
         <PopulatedCard
-          cardData={selectedCard}
+          cardData={state.selectedCard}
           onClose={closePopulatedCard}
           onEditClick={openEditForm}
-          isEditing={isEditing}
+          isEditing={state.isEditing}
         />
       )}
-      {isEditing && (
-        <FormOverlay isOpen={isFormOpen} onCloseForm={closeForm} isEditing={isEditing} cardData={currentEditingData}>
-          <FormComponent onSubmit={closePopulatedCard} onCloseForm={closeForm} cardData={currentEditingData} />
+      {state.isEditing && (
+        <FormOverlay isOpen={state.isFormOpen} onCloseForm={closeForm} isEditing={state.isEditing} cardData={currentEditingData}>
+          <FormComponent onSubmit={closePopulatedCard} onCloseForm={closeForm} cardData={state.selectedCard} />
         </FormOverlay>
       )}
-      {isHelpModalOpen && <HelpModal isOpen={isHelpModalOpen} onClose={toggleHelpModal} />}
+      {state.isHelpModalOpen && <HelpModal isOpen={state.isHelpModalOpen} onClose={toggleHelpModal} />}
     </div>
   );
 }

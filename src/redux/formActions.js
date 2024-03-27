@@ -23,9 +23,12 @@ export const clearFormData = () => ({
   type: CLEAR_FORM_DATA,
 });
 
-export const submitForm = () => ({
-  type: SUBMIT_FORM,
-});
+export const submitForm = (payload) => {
+  return {
+    type: SUBMIT_FORM,
+    payload: payload,
+  }
+};
 
 export const setCurrentEditingData = (data) => {
   return {
