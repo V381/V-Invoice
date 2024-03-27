@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import isEqual from 'lodash/isEqual';
-import Button from './Button';
+import Button from './common/Button';
 import FormField from './FormField';
 import {
   updateFormData,
@@ -14,7 +14,6 @@ import styles from './FormComponent.module.css';
 
 function FormComponent({ cardData = {}, isEditing, onCloseForm }) {
   const dispatch = useDispatch();
-  const currentEditingData = useSelector(state => state.formData.currentEditingData);
   const [localFormData, setLocalFormData] = useState({
     id: cardData?.id,
     clientName: cardData?.clientName,

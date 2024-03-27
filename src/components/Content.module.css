@@ -14,16 +14,16 @@ main {
   text-align: left;
 }
 
-.submit-text {
+.submitText {
   font-size: 2rem;
   font-style: italic;
 }
 
-.card-wrapper {
+.cardWrapper {
   margin-bottom: 10px; 
 }
 
-.card-wrapper button {
+.cardWrapper button {
   color: white;
   background-color: inherit;
   width: 500px;
@@ -36,7 +36,7 @@ main {
   justify-content: space-between;
 }
 
-.card-modal {
+.cardModal {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -48,7 +48,7 @@ main {
   display: none;
 }
 
-.card-modal.open {
+.cardModal.open {
   display: block;
 }
 
@@ -57,19 +57,19 @@ main {
   font-size: 1rem;
 }
 
-.remove-card-icon {
+.removeCardIcon {
   text-align: right;
   font-size: 1rem;
   transition: 0.5s ease-in-out;
 }
 
-.remove-card-icon:hover {
+.removeCardIcon:hover {
   cursor: pointer;
   color: gray;
 
 }
 
-.icon-style {
+.iconStyle {
   color: red;
   font-size: 2rem;
 }

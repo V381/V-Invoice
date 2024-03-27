@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Sidebar.css';
+import styles from './Sidebar.module.css';
 import FormOverlay from './FormOverlay';
 import { FaPlus } from 'react-icons/fa';
 
@@ -11,10 +11,10 @@ function Sidebar() {
   };
 
   return (
-    <div className={`sidebar ${isFormOpen ? 'form-open' : ''}`}>
-      <FaPlus className="plus-icon" onClick={toggleForm} />
+    <div className={`${styles.sidebar} ${isFormOpen ? styles.formOpen : ''}`}>
+      <FaPlus className={styles.plusIcon} onClick={toggleForm} />
       {isFormOpen && <FormOverlay onClose={toggleForm} isOpen={isFormOpen} />}
-      <p>V</p>
+      <p className={styles.letterV}>V</p>
     </div>
   );
 }

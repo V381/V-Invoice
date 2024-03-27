@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './FormComponent.module.css'; 
-import InputField from './InputField'; 
+import InputField from './common/InputField'; 
 
 function FormField({ type, label, id, name, value, onChange, options }) {
   if (type === 'select') {
