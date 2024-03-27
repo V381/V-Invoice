@@ -1,79 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './PopulatedCard.css';
 import { useSelector } from 'react-redux';
 
 function PopulatedCard({ cardData, onClose, onEditClick }) {
   const currentEditingData = useSelector((state) => state.formData.currentEditingData);
-  const [localData, setLocalData] = useState(currentEditingData);
+  const localData = currentEditingData || cardData;
 
-  useEffect(() => {
-    if (currentEditingData) {
-      setLocalData(currentEditingData);
-    } else {
-      setLocalData(cardData || {});
-    }
-  }, [currentEditingData, cardData]);
+  const properties = [
+    { label: "Client's Name", value: localData.clientName },
+    { label: "Client's Email", value: localData.clientEmail },
+    { label: "Street Address", value: localData.streetAddress },
+    { label: "City", value: localData.city },
+    { label: "Zip Code", value: localData.zipCode },
+    { label: "Country", value: localData.country },
+    { label: "Invoice Date", value: localData.invoiceDate },
+    { label: "Payment Due", value: localData.paymentDue },
+    { label: "Payment Terms", value: localData.paymentTerms },
+    { label: "Product Description", value: localData.productDescription },
+    { label: "Item Name", value: localData.itemName },
+    { label: "Item City", value: localData.itemCity },
+    { label: "Item Price", value: localData.itemPrice },
+    { label: "Item Total", value: localData.itemTotal },
+  ];
 
-  
   return (
     <div className="populated-card">
-      <div className="property">
-        <span className="property-label">Client's Name:</span>
-        <span className="property-value">{localData?.clientName}</span>
-      </div>
-      <div className="property">
-        <span className="property-label">Client's Email:</span>
-        <span className="property-value">{localData?.clientEmail || cardData.clientEmail}</span>
-      </div>
-      <div className="property">
-        <span className="property-label">Street Address:</span>
-        <span className="property-value">{localData?.streetAddress || cardData.streetAddress}</span>
-      </div>
-      <div className="property">
-        <span className="property-label">City:</span>
-        <span className="property-value">{localData?.city || cardData.city} </span>
-      </div>
-      <div className="property">
-        <span className="property-label">Zip Code:</span>
-        <span className="property-value">{localData?.zipCode || cardData.zipCode}</span>
-      </div>
-      <div className="property">
-        <span className="property-label">Country:</span>
-        <span className="property-value">{localData?.country || cardData.country}</span>
-      </div>
-      <div className="property">
-        <span className="property-label">Invoice Date:</span>
-        <span className="property-value">{localData?.invoiceDate || cardData.invoiceDate}</span>
-      </div>
-      <div className="property">
-        <span className="property-label">Payment Due:</span>
-        <span className="property-value">{localData?.paymentDue || cardData.paymentDue}</span>
-      </div>
-      <div className="property">
-        <span className="property-label">Payment Terms:</span>
-        <span className="property-value">{localData?.paymentTerms || cardData.paymentTerms}</span>
-      </div>
-      <div className="property">
-        <span className="property-label">Product Description:</span>
-        <span className="property-value">{localData?.productDescription || cardData.productDescription}</span>
-      </div>
-      <div className="property">
-        <span className="property-label">Item Name:</span>
-        <span className="property-value">{localData?.itemName || cardData.itemName}</span>
-      </div>
-      <div className="property">
-        <span className="property-label">Item City:</span>
-        <span className="property-value">{localData?.itemCity || cardData.itemCity}</span>
-      </div>
-      <div className="property">
-        <span className="property-label">Item Price:</span>
-        <span className="property-value">{localData?.itemPrice || cardData.itemPrice}</span>
-      </div>
-      <div className="property">
-        <span className="property-label">Item Total:</span>
-        <span className="property-value">{localData?.itemTotal || cardData.itemTotal}</span>
-      </div>
-
+      {properties.map((prop, index) => (
+        <div key={index} className="property">
+          <span className="property-label">{prop.label}:</span>
+          <span className="property-value">{prop.value}</span>
+        </div>
+      ))}
       <button onClick={onClose}>Close</button>
       <button onClick={onEditClick}>Edit</button>
     </div>
