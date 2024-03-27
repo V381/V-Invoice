@@ -28,6 +28,7 @@ const initialState = {
     itemTotal: '',
   },
   formDataArray: [],
+  lastId: 0,
   isFormSubmitted: false,
   currentEditingData: null,
 };
@@ -72,20 +73,29 @@ const formReducer = (state = initialState, action) => {
         ...state,
         formDataArray: state.formDataArray.filter((card) => card.id !== cardId),
       };
-    case SUBMIT_FORM:
-      return {
-        ...state,
-        formDataArray: [...state.formDataArray, { ...state.formData, id: state.formData.id + 1 }],
-        isFormSubmitted: true,
-        formData: { ...initialState.formData, id: state.formData.id + 1 },
-      };
+      case SUBMIT_FORM: {
+        const newId = state.lastId + 1; 
+        const newEntry = {
+          ...action.payload,
+          id: action.payload.id || newId, 
+        };
+        return {
+          ...state,
+          formDataArray: [...state.formDataArray, newEntry],
+          lastId: newId, 
+        };
+      }
       case UPDATE_CARD_ARRAY:
         const updatedArray = state.formDataArray.map((item) => {
-          if (item.id === state.currentEditingData.id) {
+          if (item.id === action.payload.id) { 
             return { ...item, ...action.payload }; 
           }
           return item;
         });
+  return {
+    ...state,
+    formDataArray: updatedArray,
+  };
   return {
     ...state,
     formDataArray: updatedArray,
